@@ -1,0 +1,9 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"><body>
+<h2 th:text="'Well done, ' + ${playerName} + '!'"></h2>
+<p th:text="'Difficulty: ' + ${difficulty}"></p>
+<p th:text="'Score: ' + ${score} + '/' + ${total}"></p>
+<a th:href="@{/trivia}">Home</a>
+<a th:href="@{/trivia/scoreboard}">Scoreboard</a>
+</body></html>
