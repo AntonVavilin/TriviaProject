@@ -13,8 +13,19 @@ public class NewGameForm {
     @NotNull
     private Difficulty difficulty;
 
-    public String getPlayerName() { return playerName; }
-    public void setPlayerName(String playerName) { this.playerName = playerName; }
-    public Difficulty getDifficulty() { return difficulty; }
-    public void setDifficulty(Difficulty difficulty) { this.difficulty = difficulty; }
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
 }

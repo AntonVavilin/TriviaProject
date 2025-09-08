@@ -3,7 +3,6 @@ package demo.game;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
 
 import java.time.Instant;
 import java.util.List;
@@ -21,13 +20,13 @@ public class GameSession {
     @Getter @Setter @Builder
     public static class Question {
         private String text;
-        private List<AnswerOption> options; // shuffled
-        private String correctOptionId;     // opaque id, not exposed as text
+        private List<AnswerOption> options;
+        private String correctOptionId;
     }
     @Getter @Setter @Builder
     public static class AnswerOption {
-        private String id;   // UUID string
-        private String text; // decoded html
+        private String id;
+        private String text;
     }
 
 }
