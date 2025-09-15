@@ -19,7 +19,9 @@ public class GameController {
     private final GameResultRepository repo;
 
     @GetMapping
-    public String welcome() { return "welcome"; }
+    public String welcome() {
+        return "welcome";
+    }
 
     @GetMapping("/new")
     public String newGame(Model model) {
@@ -28,7 +30,8 @@ public class GameController {
     }
 
     @PostMapping("/new")
-    public String startGame(@Valid @ModelAttribute("form") NewGameForm form,
+    public String startGame(@Valid @ModelAttribute("form")
+                            NewGameForm form,
                             BindingResult br,
                             HttpSession httpSession) {
         if (br.hasErrors()) return "new-game";
