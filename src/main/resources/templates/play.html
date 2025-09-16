@@ -1,15 +1,20 @@
-
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org"><body>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
 <div th:text="'Question ' + ${index} + ' of ' + ${total}"></div>
-<h3 th:text="${question.text}">Question</h3>
+
+<h3 th:text="${question.questionText}">Question</h3>
+
 <form th:action="@{/trivia/answer}" th:object="${answerForm}" method="post">
-    <div th:each="opt : ${question.options}">
+    <div th:each="opt : ${options}">
         <label>
-            <input type="radio" th:field="*{optionId}" th:value="${opt.id}" required/>
-            <span th:text="${opt.text}">Option</span>
+            <input type="radio" th:field="*{optionId}" th:value="${opt}" required/>
+            <span th:text="${opt}">Option</span>
         </label>
     </div>
     <button type="submit">Submit</button>
 </form>
-</body></html>
+
+</body>
+</html>

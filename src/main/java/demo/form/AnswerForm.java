@@ -1,5 +1,5 @@
 
-package demo.game;
+package demo.form;
 
 import jakarta.validation.constraints.NotBlank;
 

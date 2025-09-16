@@ -1,9 +1,20 @@
-
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org"><body>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
 <h2 th:text="'Well done, ' + ${playerName} + '!'"></h2>
-<p th:text="'Difficulty: ' + ${difficulty}"></p>
-<p th:text="'Score: ' + ${score} + '/' + ${total}"></p>
+<p>
+    <strong>Difficulty:</strong>
+    <span th:text="${difficulty}"></span>
+</p>
+<p>
+    <strong>Score:</strong>
+    <span th:text="${score}"></span> /
+    <span th:text="${total}"></span>
+</p>
+
 <a th:href="@{/trivia}">Home</a>
 <a th:href="@{/trivia/scoreboard}">Scoreboard</a>
-</body></html>
+
+</body>
+</html>

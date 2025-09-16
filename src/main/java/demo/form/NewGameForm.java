@@ -1,6 +1,7 @@
 
-package demo.game;
+package demo.form;
 
+import demo.game.Difficulty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

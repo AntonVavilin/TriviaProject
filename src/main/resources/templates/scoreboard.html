@@ -1,26 +1,62 @@
 
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org"><body>
-<h2>Scoreboard</h2>
-<form method="get" th:action="@{/trivia/scoreboard}">
-    <select name="difficulty" th:value="${difficulty}">
-        <option>EASY</option><option>MEDIUM</option><option>HARD</option>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Scoreboard</title>
+</head>
+<body>
+
+<h2>Scoreboard - <span th:text="${difficulty}"></span></h2>
+
+<!-- Difficulty selection -->
+<form th:action="@{/trivia/scoreboard}" method="get">
+    <label for="difficulty">Difficulty:</label>
+    <select name="difficulty" id="difficulty">
+        <option th:each="diff : ${T(demo.game.Difficulty).values()}"
+                th:value="${diff}"
+                th:text="${diff}"
+                th:selected="${diff == difficulty}"></option>
     </select>
     <button type="submit">Filter</button>
 </form>
-<table>
-    <tr><th>#</th><th>Name</th><th>Score</th><th>Duration</th><th>Date</th></tr>
-    <tr th:each="r, iStat : ${results.content}">
-        <td th:text="${iStat.index + 1}"></td>
-        <td th:text="${r.playerName}"></td>
-        <td th:text="${r.correctAnswers} + '/' + ${r.totalQuestions}"></td>
-        <td th:text="${#numbers.formatInteger(r.durationMs/1000,0)} + 's'"></td>
-        <td th:text="${#temporals.format(r.finishedAt, 'yyyy-MM-dd HH:mm')}"></td>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Rank</th>
+        <th>Player</th>
+        <th>Score</th>
+        <th>Time (seconds)</th>
+        <th>Finished At</th>
     </tr>
+    </thead>
+    <tbody>
+    <tr th:each="result, iterStat : ${results}">
+        <td th:text="${iterStat.index + 1}"></td>
+        <td th:text="${result.player.username}"></td>
+        <td th:text="${result.correctAnswers + '/' + result.totalQuestions}"></td>
+        <td th:text="${result.durationMs / 1000}"></td>
+        <td th:text="${result.finishedAt != null ? #temporals.format(result.finishedAt, 'yyyy-MM-dd HH:mm') : ''}"></td>
+    </tr>
+    </tbody>
 </table>
+
 <div>
-    <a th:if="${results.hasPrevious()}" th:href="@{|/trivia/scoreboard?difficulty=${difficulty}&page=${results.number - 1}|}">Prev</a>
-    <span th:text="${results.number + 1} + ' / ' + ${results.totalPages}"></span>
-    <a th:if="${results.hasNext()}" th:href="@{|/trivia/scoreboard?difficulty=${difficulty}&page=${results.number + 1}|}">Next</a>
+    <a th:if="${results.hasPrevious()}"
+       th:href="@{/trivia/scoreboard(difficulty=${difficulty}, page=${results.number - 1})}">
+        Previous
+    </a>
+
+    <!-- ✅ Single ${} for pagination text -->
+    <span th:text="${(results.number + 1) + ' / ' + results.totalPages}"></span>
+
+    <a th:if="${results.hasNext()}"
+       th:href="@{/trivia/scoreboard(difficulty=${difficulty}, page=${results.number + 1})}">
+        Next
+    </a>
 </div>
-</body></html>
+
+<a th:href="@{/trivia}">Home</a>
+
+</body>
+</html>

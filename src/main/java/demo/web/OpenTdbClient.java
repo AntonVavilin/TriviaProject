@@ -2,6 +2,7 @@ package demo.web;
 
 import demo.game.Difficulty;
 import demo.game.GameSession;
+import demo.question.QuestionData;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class OpenTdbClient {
         this.categoryId = categoryId;
     }
 
-    public List<GameSession.Question> fetchQuestions(Difficulty difficulty) {
+    public List<QuestionData> fetchQuestions(Difficulty difficulty) {
         String diff = difficulty.name().toLowerCase();
         OpenTdbResponse resp = client.get()
                 .uri(uri -> uri.path("/api.php")
@@ -44,30 +45,20 @@ public class OpenTdbClient {
         if (resp == null || resp.results == null || resp.results.isEmpty()) {
             throw new IllegalStateException("No questions available from OpenTDB");
         }
-        return mapToQuestions(resp.results);
+        return resp.results.stream()
+                .map(q -> QuestionData.builder()
+                        .category(HtmlUtils.htmlUnescape(q.category))
+                        .difficulty(difficulty)
+                        .questionText(HtmlUtils.htmlUnescape(q.question))
+                        .correctAnswer(HtmlUtils.htmlUnescape(q.correct_answer))
+                        .incorrectAnswers(q.incorrect_answers.stream()
+                                .map(HtmlUtils::htmlUnescape)
+                                .toList())
+                        .build())
+                .toList();
     }
 
-    private List<GameSession.Question> mapToQuestions(List<OpenTdbQuestion> apiQs) {
-        return apiQs.stream().map(q -> {
-            String text = HtmlUtils.htmlUnescape(q.question);
-            List<String> all = new ArrayList<>(q.incorrect_answers);
-            all.add(q.correct_answer);
-            Collections.shuffle(all);
-            List<GameSession.AnswerOption> opts = new ArrayList<>();
-            String correctId = null;
-            for (String a : all) {
-                String id = UUID.randomUUID().toString();
-                String decoded = HtmlUtils.htmlUnescape(a);
-                opts.add(GameSession.AnswerOption.builder().id(id).text(decoded).build());
-                if (a.equals(q.correct_answer)) correctId = id;
-            }
-            return GameSession.Question.builder()
-                    .text(text)
-                    .options(opts)
-                    .correctOptionId(correctId)
-                    .build();
-        }).toList();
-    }
+
 
     @Data
     static class OpenTdbResponse {
