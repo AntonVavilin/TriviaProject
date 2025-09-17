@@ -1,7 +1,22 @@
 
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org"><body>
-<h1>Welcome to Trivia</h1>
-<a th:href="@{/trivia/new}">New Game</a>
-<a th:href="@{/trivia/scoreboard}">Scoreboard</a>
-</body></html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+<h1>Welcome to Trivia Game</h1>
+
+<a th:href="@{/trivia/new}">Start New Game</a><br>
+<a th:href="@{/trivia/scoreboard}">View Scoreboard</a><br>
+
+<div th:if="${session.ADMIN_LOGGED_IN}">
+    <a th:href="@{/trivia/players}">Manage Players</a>
+</div>
+
+<div th:if="${session.ADMIN_LOGGED_IN == null}">
+    <a th:href="@{/trivia/admin-login}">Admin Login</a>
+</div>
+
+</body>
+</html>
