@@ -3,7 +3,7 @@ package demo.game;
 import demo.player.Player;
 import demo.player.PlayerRepository;
 import demo.question.*;
-import demo.web.OpenTdbClient;
+import demo.api.OpenTdbClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import lombok.RequiredArgsConstructor;
 
 
 @Service

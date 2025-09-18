@@ -1,7 +1,6 @@
-package demo.web;
+package demo.api;
 
 import demo.game.Difficulty;
-import demo.game.GameSession;
 import demo.question.QuestionData;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,10 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.HtmlUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class OpenTdbClient {
