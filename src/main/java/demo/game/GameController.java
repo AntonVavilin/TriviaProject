@@ -25,20 +25,20 @@ public class GameController {
     private final GameService gameService;
     private final GameResultRepository repo;
 
-    /** Welcome page */
+//    Welcome page
     @GetMapping
     public String welcome() {
         return "welcome";
     }
 
-    /** Show new game form */
+//    Show new game form
     @GetMapping("/new")
     public String newGame(Model model) {
         model.addAttribute("form", new NewGameForm());
         return "new-game";
     }
 
-    /** Start a new game */
+//    Start a new game
     @PostMapping("/new")
     public String startGame(@Valid @ModelAttribute("form") NewGameForm form,
                             BindingResult br,
@@ -50,7 +50,7 @@ public class GameController {
         return "redirect:/trivia/play";
     }
 
-    /** Show the current question */
+//    Show the current question
     @GetMapping("/play")
     public String play(HttpSession httpSession, Model model) {
         GameSession s = (GameSession) httpSession.getAttribute("GAME_SESSION");
@@ -59,7 +59,6 @@ public class GameController {
 
         QuestionDTO q = s.getQuestions().get(s.getIndex());
 
-        // Build shuffled options
         var options = new ArrayList<String>();
         options.add(q.getCorrectAnswer());
         options.addAll(q.getIncorrectAnswers());
@@ -74,7 +73,7 @@ public class GameController {
         return "play";
     }
 
-    /** Process the submitted answer */
+//    Process the submitted answer
     @PostMapping("/answer")
     public String answer(@Valid @ModelAttribute AnswerForm answerForm,
                          BindingResult br,
@@ -98,7 +97,7 @@ public class GameController {
         // Move to next question or finish
         int next = s.getIndex() + 1;
         if (next >= s.getQuestions().size()) {
-            gameService.finishAndPersist(s); // persist final result
+            gameService.finishAndPersist(s);
         } else {
             s.setIndex(next);
         }
@@ -107,7 +106,7 @@ public class GameController {
         return s.isFinished() ? "redirect:/trivia/finish" : "redirect:/trivia/play";
     }
 
-    /** Finish screen */
+//     Finish screen
     @GetMapping("/finish")
     public String finish(HttpSession httpSession, Model model) {
         GameSession s = (GameSession) httpSession.getAttribute("GAME_SESSION");
@@ -126,7 +125,7 @@ public class GameController {
         return "finish";
     }
 
-    /** Scoreboard with difficulty filter */
+//    Scoreboard with difficulty filter
     @GetMapping("/scoreboard")
     public String scoreboard(@RequestParam(defaultValue = "EASY") Difficulty difficulty,
                              @RequestParam(defaultValue = "0") int page,

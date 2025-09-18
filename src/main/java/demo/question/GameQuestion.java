@@ -17,13 +17,13 @@ public class GameQuestion {
     private GameQuestionId id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("gameId") // maps this property to the gameId part of the PK
+    @MapsId("gameId")
     @JoinColumn(name = "game_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_game_question_game_result"))
     private GameResult gameResult;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("questionId") // maps this property to the questionId part of the PK
+    @MapsId("questionId")
     @JoinColumn(name = "question_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_game_question_question"))
     private Question question;

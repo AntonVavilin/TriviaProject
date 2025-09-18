@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 
-// START GENAI
+
 @Service
 @RequiredArgsConstructor
 public class GameService {
@@ -28,7 +28,7 @@ public class GameService {
     private boolean stopOnFirstWrong;
 
     public GameSession startNewGame(String playerName, Difficulty difficulty) {
-        // Ensure player exists
+        // Check if player exists
         Player player = playerRepo.findByUsername(playerName.trim());
         if (player == null) {
             player = Player.builder()
@@ -41,7 +41,7 @@ public class GameService {
         // Fetch from API
         List<QuestionData> fetched = openTdbClient.fetchQuestions(difficulty);
 
-        // Map to DTOs
+        // Map to DTO
         List<QuestionDTO> questions = fetched.stream()
                 .map(qData -> new QuestionDTO(
                         qData.getQuestionText(),
@@ -62,30 +62,30 @@ public class GameService {
                 .build();
     }
 
-    public void answer(GameSession s, String selectedOptionId) {
-        if (s.isFinished()) return;
-
-        QuestionDTO q = s.getQuestions().get(s.getIndex()); // ✅ DTO now
-        boolean correct = Objects.equals(selectedOptionId, q.getCorrectAnswer());
-
-        if (correct) {
-            s.setCorrectCount(s.getCorrectCount() + 1);
-        }
-
-        // Store the answer in session's answer history
-        s.getAnswers().put(q, selectedOptionId);
-
-        if (!correct && stopOnFirstWrong) {
-            finishAndPersist(s);
-        } else {
-            int next = s.getIndex() + 1;
-            if (next >= s.getQuestions().size()) {
-                finishAndPersist(s);
-            } else {
-                s.setIndex(next);
-            }
-        }
-    }
+//    public void answer(GameSession s, String selectedOptionId) {
+//        if (s.isFinished()) return;
+//
+//        QuestionDTO q = s.getQuestions().get(s.getIndex());
+//        boolean correct = Objects.equals(selectedOptionId, q.getCorrectAnswer());
+//
+//        if (correct) {
+//            s.setCorrectCount(s.getCorrectCount() + 1);
+//        }
+//
+//        // Store the answer in session's answer history
+//        s.getAnswers().put(q, selectedOptionId);
+//
+//        if (!correct && stopOnFirstWrong) {
+//            finishAndPersist(s);
+//        } else {
+//            int next = s.getIndex() + 1;
+//            if (next >= s.getQuestions().size()) {
+//                finishAndPersist(s);
+//            } else {
+//                s.setIndex(next);
+//            }
+//        }
+//    }
 
     public void finishAndPersist(GameSession s) {
         s.setFinished(true);
