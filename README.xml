@@ -1,0 +1,3 @@
+Aplikacja quizowa Trivia oparta na Spring Boot, wykorzystująca Spring MVC do obsługi kontrolerów, Spring Data JPA do dostępu do bazy danych oraz Thymeleaf do renderowania widoków.
+        Zawiera funkcje zarządzania graczami, uruchamiania sesji gry, pobierania pytań z Open Trivia Database API za pomocą dedykowanego serwisu OpenTdbClient oraz zapisywania wyników gier w bazie danych.
+        Ma dodatkowe elementy, takie jak DTO ( QuestionData) do przekazywania danych między warstwami, klasę złożonego klucza głównego (GameQuestionId) do mapowania relacji wiele-do-wielu oraz uwierzytelnianie sesyjne administratora do ochrony wybranych endpointów(Players).
