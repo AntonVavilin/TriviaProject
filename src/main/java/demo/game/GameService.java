@@ -23,8 +23,8 @@ public class GameService {
     private final PlayerRepository playerRepo;
     private final QuestionRepository questionRepo;
     private final GameQuestionRepository gameQuestionRepo;
-    @Value("${trivia.game.stop-on-first-wrong}")
-    private boolean stopOnFirstWrong;
+//    @Value("${trivia.game.stop-on-first-wrong}")
+//    private boolean stopOnFirstWrong;
 
     public GameSession startNewGame(String playerName, Difficulty difficulty) {
         // Check if player exists
